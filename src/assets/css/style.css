@@ -1,0 +1,130 @@
+.active-side-link
+{
+  color: #fff !important;
+}
+.no-link-href
+{
+	cursor: pointer;
+}
+.active-side-link-background
+{
+	background-color: #9c27b0;
+	box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+}
+.orders-table-row:hover
+{
+	background-color: #eeeeee !important;
+}
+.form-title
+{
+	border-bottom: 1px solid #f4f4f4;
+	display: block;
+	padding: 10px;
+	position: relative;
+}
+.form-title h2
+{
+	font-size: 18px;
+	font-weight: 500;
+	color: #444;
+}
+.float-right
+{
+	float: right !important;
+}
+.centered
+{
+	text-align: center !important;
+}
+.green-color
+{
+	color: green !important;
+}
+.danger-color
+{
+	color: red !important;
+}
+.billa-support-response
+{
+	background-color: #9c27b0 !important;
+}
+.billa-support-response .card-body h4
+{
+	color: #fff !important;
+}
+.billa-support-response .card-body p
+{
+	color: #fff !important;
+}
+.white-color
+{
+	color: #fff !important;
+}
+.white-background
+{
+	background-color: #fff !important;
+	margin-top: 20px !important;
+}
+.ticket-title
+{
+	height: 50px;
+	font-size: 1.125rem;
+	line-height: 30px;
+	padding: 0.625rem 0;
+	font-weight: bold;
+	margin-left: 1rem;
+}
+.support-user
+{
+	font-size: 1.125rem !important;
+	line-height: 1.4em !important;
+	font-weight: 700 !important;
+	padding-top: 20px !important;
+	padding-left: 20px !important;
+}
+.btn-group button {
+    background-color: #9c27b0; /* Green background */
+    border: 1px solid rgba(0, 0, 0, 0.1);; /* Green border */
+    color: white; /* White text */
+    padding: 10px 24px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    float: left; /* Float the buttons side by side */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.btn-group button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+    background-color: #3e8e41;
+}
+.active-tab
+{
+	background-color: #3e8e41 !important;
+}
+.wide-card
+{
+	/*width: 300% !important;
+	margin-left: 10% !important;*/
+}
+.wide-filter-card
+{
+	/*width: 250% !important;
+	margin-left: 20% !important;*/
+}
+.wide-sales-filter-card
+{
+	/*width: 330% !important;*/
+}
+.wide-sales-card
+{
+	/*width: 330% !important;*/
+}

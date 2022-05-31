@@ -1,0 +1,115 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+    	
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8" *ngFor="let product of productData">            	
+
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">{{product.product_name}}</h4>
+                  <p class="card-category">From {{product.partner_name}}</p>
+                </div>
+                <div class="card-body">
+                	<div class="card-body">
+                    	<div class="table-responsive">
+
+                    		<div class="col-md-8">
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Added on &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{product.added_on_date_time | date}} {{product.added_on_date_time | date:'H:mm a'}}
+                    				</div>
+                    			</div>
+                    			<br/>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Price &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{product.partner_currency_code}} {{product.price | number}}
+                    				</div>
+                    			</div>
+                    			<br/>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Added by &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm no-link-href" (click)="viewUserDetails(product.product_added_by_employee_slug)">
+                    					{{product.product_added_by_employee_first_name}} {{product.product_added_by_employee_last_name}}
+                    				</div>
+                    			</div>
+                    			<br/>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Sex &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm" [innerHTML]="product.product_description">
+                    				</div>
+                    			</div>
+
+			              </div>
+			              <hr>
+
+			              <button type="submit" class="btn btn-primary pull-right" (click)="editProduct()">Edit</button>
+
+			              <div class="clearfix"></div>
+
+		            	</div>
+		        	</div>
+
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+              <div class="card card-profile" *ngFor="let product of productData">
+                <div class="card-avatar">
+
+                  <a *ngIf="product.image">
+
+                    <img class="img" src="{{apiLink}}{{product.image}}" />
+                  </a>
+
+                  <a *ngIf="!product.image">
+                    <img class="img" src="../../assets/img/product.png" />
+                  </a>
+
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray" *ngIf="product.active == true || product.active == 'true' || product.active == True || product.active == True" style="color: green !important">Active</h6>
+                  <h6 class="card-category text-gray" *ngIf="product.active == false || product.active == 'false' || product.active == False || product.active == False" style="color: red !important">Deactive</h6>
+
+                  <h4 class="card-title">Code: {{product.product_code}}</h4>
+
+                  <div *ngIf="product.active == true || product.active == 'true' || product.active == True || product.active == True">
+                  	<a class="btn btn-danger btn-round" style="color: #fff !important;" (click)="alterProduct('deactivate')">Deactivate</a>
+                  </div>
+
+                  <div *ngIf="product.active == false || product.active == 'false' || product.active == False || product.active == False">
+                  	<a class="btn btn-success btn-round" style="color: #fff !important;" (click)="alterProduct('activate')">Activate</a>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <app-footer></app-footer>
+    </div>
+  </div>

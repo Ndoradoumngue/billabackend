@@ -1,0 +1,176 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+    	
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8" *ngFor="let user of userData">            	
+
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">{{user.first_name}} {{user.last_name}}</h4>
+                  <p class="card-category">Employee since {{user.is_employee_of_company_since | date}} {{user.is_employee_of_company_since | date:'H:mm a'}}</p>
+                </div>
+                <div class="card-body">
+
+                	<div class="card-body">
+                    	<div class="table-responsive">
+
+                    		<div class="col-md-8">
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Id number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.IdNumber}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Date of birth &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.dob}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Sex &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.sex}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Citizen of </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.user_country_of_citizenship_name}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Email </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.email}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Tel line 1 </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.tel1}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Tel line 2 </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.tel2}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Address </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					{{user.address}}
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Facebook </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					<a href="{{user.facebookProfileLink}}" target="_blank">Profile</a>
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Twiter </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					<a href="{{user.twitterProfileLink}}" target="_blank">Profile</a>
+                    				</div>
+                    			</div>
+
+                    			<div class="row">
+                    				<div class="col-sm">
+                    					<b>Linkedin </b>
+                    				</div>
+                    				<div class="col-sm">
+                    					<a href="{{user.linkedInProfileLink}}" target="_blank">Profile</a>
+                    				</div>
+                    			</div>
+
+			              </div>
+			              <hr>
+
+			              <div *ngIf="user.is_active_employee_of_company == 'false'">
+			              	<button type="submit" class="btn btn-success pull-right" (click)="processCompanyEmployee('activate', user.slug)">Activate</button>
+				          </div>
+
+				          <div *ngIf="user.is_active_employee_of_company == 'true'">
+			              	<button type="submit" class="btn btn-danger pull-right" (click)="processCompanyEmployee('deactivate', user.slug)">Deactivate</button>
+				          </div>
+
+			              <div class="clearfix"></div>
+
+		            	</div>
+		        	</div>
+
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+              <div class="card card-profile" *ngFor="let user of userData">
+                <div class="card-avatar">
+
+                  <a *ngIf="user.profile_image_url">
+                    <img class="img" src="{{user.profile_image_url}}" />
+                  </a>
+
+                  <a *ngIf="!user.profile_image_url">
+                    <img class="img" src="../../assets/img/user.png" />
+                  </a>
+
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray">{{user.profession}}</h6>
+                  <h4 class="card-title">Billa Code: {{user.billa_code}}</h4>
+
+                  <div *ngIf="user.slug == loggedUserSlug">
+                  	<a class="btn btn-warning btn-round" style="color: #fff !important;" (click)="logout()">Logout</a>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <app-footer></app-footer>
+    </div>
+  </div>

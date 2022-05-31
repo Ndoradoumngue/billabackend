@@ -1,0 +1,153 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <button type="submit" class="btn btn-info" (click)="addEmployee()">New Employee</button>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+
+                	<div class="form-title">
+	                	<h2>
+	                		Filter 
+	                		<div class="float-right">
+			                	<button *ngIf="showButtonFilters == true" (click)="showFilter()"><i class="fa fa-plus"></i></button>
+			                	<button *ngIf="hideButtonFilters == true" (click)="hideFilter()"><i class="fa fa-minus"></i></button>
+			                </div>
+			            </h2>
+		            </div>                	
+
+                	<div *ngIf="showFilters == true">
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">From Date</label> -->
+
+	                          <input class="form-control" placeholder="Sales from date" ngx-mydatepicker name="addedFromDate" [(ngModel)]="addedFromDate" [options]="myOptions" #dp="ngx-mydatepicker" (click)="dp.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">To Date</label> -->
+	                          <!-- <input type="text" class="form-control" name="addedToDate" [(ngModel)]="addedToDate" ngx-mydatepicker> -->
+	                          <input class="form-control" placeholder="Sales to date" ngx-mydatepicker name="addedToDate" [(ngModel)]="addedToDate" [options]="myOptions" #dp2="ngx-mydatepicker" (click)="dp2.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Status</label>
+
+                            <select class="form-control" [(ngModel)]="employeeStatus">
+                              <option value="">-- Please select --</option>
+                              <option value="true"> Active </option>
+                              <option value="false"> Deactive </option>
+                            </select>
+
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Custom Search</label>
+                            <input type="text" class="form-control" name="customQuery" [(ngModel)]="customQuery">
+                          </div>
+                        </div>
+                      </div>
+
+	                    <button class="btn btn-primary pull-right" (click)="search()">Search</button>
+	                    <div class="clearfix"></div>
+
+	                </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Employees Report</h4>
+                  <p class="card-category"> {{employeesDataSubtitle}} </p>
+                </div>
+
+                <div style="margin-left: 45% !important;">
+                	<br/>
+	                <div *ngIf="stopEmployeesDataFetchLoading == false" class="margin50percent" style="text-align: center !important;">
+	                	<app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'"></app-atom-spinner>
+	                </div>
+	            </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          ID Number
+                        </th>
+                        <th>
+                          Full Name
+                        </th>
+                        <th>
+                          Tel
+                        </th>
+                        <th>
+                          Email
+                        </th>
+                        <th>
+                          Position
+                        </th>
+                      </thead>                     
+
+                      <tbody>
+
+                        <tr *ngFor="let employee of employeesList" class="orders-table-row" (click)="viewUserDetails(employee.slug)">
+                          
+                          <td>
+                            {{employee.IdNumber}}
+                          </td>
+                          <td>
+                            {{employee.first_name}} {{employee.last_name}}
+                          </td>
+                          <td>
+                            {{employee.buyer_tel1}}
+                          </td>
+                          <td>
+                            {{employee.email}}
+                          </td>
+                          <td>
+                            {{employee.profession}}
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {{numberOfReturnedEmployeesTitle}}
+
+              <!-- <div class="centered">
+              	<button class="btn btn-primary btn-round" (click)="loadMore()">Load More</button>
+              </div> -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>

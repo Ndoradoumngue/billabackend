@@ -1,0 +1,179 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+	<div class="main-panel">
+		<app-header></app-header>
+
+		<div class="content">
+
+			<button type="submit" class="btn btn-primary col-md-2" (click)="openSupportTicket()">Open Tocket</button>
+			<br/>
+
+			<div class="col-md-9" *ngIf="showOpenTicketForm == true">
+				<div class="card">
+
+					<div class="form-title">
+	                	<h2>
+	                		New Ticket 
+			            </h2>	                	
+		            </div> 
+
+					<div class="card-body">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="bmd-label-floating">Subject</label>
+									<input type="text" rows="5" class="form-control" [(ngModel)]="ticketSubject"/>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="bmd-label-floating">Message</label>
+									<textarea rows="5" class="form-control" [(ngModel)]="description"></textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-primary pull-right col-md-3" style="float: right !important;" (click)="submitSupportRequest()">Submit</button>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			<div class="col-md-8">
+              <div class="card">
+                <div class="card-body">
+
+                	<div class="form-title">
+	                	<h2>
+	                		Filter/Sort 
+	                		<div class="float-right">
+			                	<button *ngIf="showButtonFilters == true" (click)="showFilter()"><i class="fa fa-plus"></i></button>
+			                	<button *ngIf="hideButtonFilters == true" (click)="hideFilter()"><i class="fa fa-minus"></i></button>
+			                </div>
+			            </h2>	                	
+		            </div>                	
+
+                	<div *ngIf="showFilters == true">
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">From Date</label> -->
+
+	                          <input class="form-control" placeholder="From date" ngx-mydatepicker name="fromDate" [(ngModel)]="fromDate" [options]="myOptions" #dp="ngx-mydatepicker" (click)="dp.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">To Date</label> -->
+	                          <!-- <input type="text" class="form-control" name="toDate" [(ngModel)]="toDate" ngx-mydatepicker> -->
+	                          <input class="form-control" placeholder="To date" ngx-mydatepicker name="toDate" [(ngModel)]="toDate" [options]="myOptions" #dp2="ngx-mydatepicker" (click)="dp2.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Solved By</label>
+
+	                          <select class="form-control" [(ngModel)]="ticketSolvedByEmployeeSlug" (change)="saveSelectedEmployeeNames()">
+	                          	<option value="">-- Please select --</option>
+	                          	<option *ngFor="let employee of employeesList" value="{{employee.slug}}:{{employee.first_name}};{{employee.last_name}}">{{employee.first_name}} {{employee.last_name}}</option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Status</label>
+
+	                          <select class="form-control" [(ngModel)]="ticketStatus">
+	                          	<option value="">-- Please select --</option>
+	                          	<option value="true"> Solved </option>
+	                          	<option value="false"> Not Solved </option>
+	                          </select>
+
+	                        </div>
+	                      </div>	                      
+	                    </div>
+
+	                    <div class="row">	                      
+	                      <div class="col-md-12">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Custom Query</label>
+	                          <input type="text" class="form-control" name="customSearch" [(ngModel)]="customSearch"/>
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <button class="btn btn-primary pull-right" (click)="search()">Search</button>
+	                    <div class="clearfix"></div>
+
+	                </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="navbar-wrapper" style="margin-left: 30% !important;" *ngIf="supportDiscussionsData?.length == 0">
+            	<a class="navbar-brand" style="font-size: 1.1rem !important;">No Ticket Found</a>
+            </div>
+
+            <div style="margin-left: 30% !important;">
+            	<br/>
+            	<div *ngIf="stopSupportDiscussionsFetchLoading == false" class="margin50percent" style="text-align: center !important;">
+            		<app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'"></app-atom-spinner>
+            	</div>
+            </div>
+            
+            <div class="card col-md-8">
+	            <div class="form-title" style="text-align: center !important;">
+	            	<h2>{{ticketsTitle}}</h2>
+	            </div> 
+	        </div>
+
+            <div class="col-lg-8 col-md-12" *ngFor="let ticket of supportDiscussionsData">
+              <div class="card" (click)="viewTicketDetails(ticket.slug)">
+
+                <div class="card-header card-header-success" *ngIf="ticket.closed == true">
+                  <h4 class="card-title"> {{ticket.ticket_subject}} </h4>
+                </div>
+
+                <div class="card-header card-header-warning" *ngIf="ticket.closed == false">
+                  <h4 class="card-title"> {{ticket.ticket_subject}} </h4>
+                </div>
+
+                <div class="card-body table-responsive" [innerHTML]="ticket.description"></div>
+                <hr>
+
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> {{ticket.support_requested_on_datetime | date}} at {{ticket.support_requested_on_datetime | date:'H:mm a'}}
+                  </div>
+                </div>
+
+              </div>
+              <br/>
+            </div>
+
+            {{numberOfReturnedTicketsDataTitle}}
+
+            <div class="centered">
+            	<button class="btn btn-primary btn-round" (click)="loadMore()">Load More</button>
+            </div>
+
+		</div>
+
+		<app-footer></app-footer>
+
+	</div>
+
+</div>

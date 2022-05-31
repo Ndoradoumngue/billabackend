@@ -1,0 +1,135 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+    	
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Order code: {{cartCode}}</h4>
+                  <p class="card-category">{{OrderStatus}}</p>
+                </div>
+                <div class="card-body">
+
+                	<div class="card-body">
+                    	<div class="table-responsive">
+                    		<table class="table">
+                    			<thead class=" text-primary">
+			                        <th>
+			                          Product Code
+			                        </th>
+			                        <th>
+			                          Product Name
+			                        </th>
+			                        <th>
+			                          Quantity
+			                        </th>
+			                        <th>
+			                          Unit Price
+			                        </th>
+			                        <th>
+			                          Total Cost
+			                        </th>
+			                    </thead>
+
+			                    <tbody>
+
+			                        <tr *ngFor="let order of listOfOrderItems" class="orders-table-row">
+			                          <td>
+			                            {{order.product_code}}
+			                          </td>
+			                          <td>
+			                            {{order.product_name}}
+			                          </td>
+			                          <td>
+			                            {{order.quantity | number}}
+			                          </td>
+			                          <td>
+			                            {{order.product_from_partner_currency_code}} {{order.unit_buying_price | number}}
+			                          </td>
+			                          <td>
+			                            {{order.product_from_partner_currency_code}} {{order.total_buying_price | number}}
+			                          </td>
+			                        </tr>
+			                    </tbody>
+			                </table>
+		            	</div>
+		        	</div>
+
+		        	<hr>
+		        	<h4 style="font-weight: bold !important;">Total Cost: {{currency}} {{totalCost | number}}</h4>
+		        	<h4 style="font-weight: bold !important;">Payment Method: {{paymentMethod}}</h4>
+
+                    <button *ngIf="OrderConfirmed == false" type="submit" class="btn btn-primary pull-right" (click)="requestOrderVerified(order_to_view_cart_code)">Confirm Payment</button>
+
+                    <button *ngIf="OrderConfirmed == true && billaCoveragePaid != true" type="submit" class="btn btn-success pull-right" (click)="requestBillaCreditPayment(order_to_view_cart_code)">Billa Credit Paid</button>
+
+                    <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+
+              <div class="card card-profile" *ngFor="let order of orderData">
+                <div class="card-avatar">
+
+                  <a *ngIf="order.buyer_profile_image_url">
+                    <img class="img" src="{{order.buyer_profile_image_url}}" />
+                  </a>
+
+                  <a *ngIf="!order.buyer_profile_image_url">
+                    <img class="img" src="../../assets/img/user.png" />
+                  </a>
+
+                </div>
+                <div class="card-body">
+                  <h6 class="card-category text-gray">Ordered by</h6>
+                  <h4 class="card-title">{{order.buyer_first_name}} {{order.buyer_last_name}}</h4>
+
+                  <div class="container">
+
+                  	<div class="row">
+					    <div class="col-sm">
+					      <b>Email &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</b>
+					    </div>
+					    <div class="col-sm">
+					      {{order.buyer_email}}
+					  </div>
+					</div>
+
+					<div class="row">
+					    <div class="col-sm">
+					      <b>Tel Line 1 :</b>
+					    </div>
+					    <div class="col-sm">
+					      {{order.buyer_tel1}}
+					  </div>
+					</div>
+
+					<div class="row">
+					    <div class="col-sm">
+					      <b>Tel Line 2 :</b>
+					    </div>
+					    <div class="col-sm">
+					      {{order.buyer_tel2}}
+					  </div>
+					</div>
+
+				</div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <app-footer></app-footer>
+    </div>
+  </div>

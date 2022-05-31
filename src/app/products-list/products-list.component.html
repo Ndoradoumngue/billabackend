@@ -1,0 +1,206 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+          	<button class="btn btn-success pull-right" (click)="addNewProduct()">New Product</button>
+	        <div class="clearfix"></div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+
+                	<div class="form-title">
+	                	<h2>
+	                		Filter/Sort 
+	                		<div class="float-right">
+			                	<button *ngIf="showButtonFilters == true" (click)="showFilter()"><i class="fa fa-plus"></i></button>
+			                	<button *ngIf="hideButtonFilters == true" (click)="hideFilter()"><i class="fa fa-minus"></i></button>
+			                </div>
+			            </h2>	                	
+		            </div>                	
+
+                	<div *ngIf="showFilters == true">
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Minimum Price</label>
+	                          <input type="number" class="form-control" name="minimumPrice" [(ngModel)]="minimumPrice"/>
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                        	<label class="bmd-label-floating">Maximum Price</label>
+	                        	<input type="number" class="form-control" name="maximumPrice" [(ngModel)]="maximumPrice"/>
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">From Date</label> -->
+
+	                          <input class="form-control" placeholder="Added from date" ngx-mydatepicker name="productsFromDate" [(ngModel)]="productsFromDate" [options]="myOptions" #dp="ngx-mydatepicker" (click)="dp.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">To Date</label> -->
+	                          <!-- <input type="text" class="form-control" name="productsToDate" [(ngModel)]="productsToDate" ngx-mydatepicker> -->
+	                          <input class="form-control" placeholder="Added to date" ngx-mydatepicker name="productsToDate" [(ngModel)]="productsToDate" [options]="myOptions" #dp2="ngx-mydatepicker" (click)="dp2.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Product Category</label>
+
+	                          <select class="form-control" [(ngModel)]="productCategorySlug" (change)="saveSelectedProductCategoryName()">
+	                          	<option value="">-- Please select --</option>
+	                          	<option *ngFor="let category of productCategoriesList" value="{{category.slug}}:{{category.category_name}}">{{category.category_name}}</option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Product Promotion</label>
+
+	                          <select class="form-control" [(ngModel)]="advertised">
+	                          	<option value="">-- Please select --</option>
+	                          	<option value="true"> Advertised </option>
+	                          	<option value="false"> Not Advertised </option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Products Added By</label>
+
+	                          <select class="form-control" [(ngModel)]="productsAddedByEmployeeSlug" (change)="saveSelectedEmployeeNames()">
+	                          	<option value="">-- Please select --</option>
+	                          	<option *ngFor="let employee of employeesList" value="{{employee.slug}}:{{employee.first_name}};{{employee.last_name}}">{{employee.first_name}} {{employee.last_name}}</option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Product Status</label>
+
+	                          <select class="form-control" [(ngModel)]="productStatus">
+	                          	<option value="">-- Please select --</option>
+	                          	<option value="true"> Active </option>
+	                          	<option value="false"> Deactive </option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-12">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Custom Search</label>
+	                          <input type="text" class="form-control" name="customSearch" [(ngModel)]="customSearch"/>
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <button class="btn btn-primary pull-right" (click)="search()">Search</button>
+	                    <div class="clearfix"></div>
+
+	                </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Products Report</h4>
+                  <p class="card-category"> {{salesDataSubtitle}} </p>
+                </div>
+
+                <div style="margin-left: 45% !important;">
+                	<br/>
+	                <div *ngIf="stopProductsListFetchLoading == false" class="margin50percent" style="text-align: center !important;">
+	                	<app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'"></app-atom-spinner>
+	                </div>
+	            </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          Product Code
+                        </th>
+                        <th>
+                          Product Name
+                        </th>
+                        <th>
+                          Price
+                        </th>
+                        <th>
+                          Active
+                        </th>
+                      </thead>
+
+                      <tbody>
+
+                        <tr *ngFor="let product of productsData" class="orders-table-row" (click)="viewProductDetails(product.slug)">
+                          <td>
+                            {{product.product_code}}
+                          </td>
+                          <td>
+                            {{product.product_name}}
+                          </td>
+                          <td>
+                            {{product.partner_currency_code}} {{product.price}}
+                          </td>
+                          <td *ngIf="product.active == true" class="green-color">
+                            Active
+                          </td>
+                          <td *ngIf="product.active == false" class="danger-color">
+                            Deactive
+                          </td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {{numberOfReturnedProductsDataTitle}}
+
+              <div class="centered">
+              	<button class="btn btn-primary btn-round" (click)="loadMore()">Load More</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>

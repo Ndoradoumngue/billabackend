@@ -1,0 +1,116 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+	<div class="main-panel">
+		<app-header></app-header>
+
+		<div class="content">
+
+      <div class="col-md-9" *ngFor="let ticket of ticketData">
+        <div *ngIf="ticket.closed == false">
+          <button *ngIf="billa_employee == 'true'" type="submit" class="btn btn-success col-md-2" (click)="requestSupportTicketClosing()">Close Ticket</button>
+        </div>
+      </div>
+
+			<div style="margin-left: 30% !important;">
+            	<br/>
+            	<div *ngIf="stopTicketDetailssLoading == false" class="margin50percent" style="text-align: center !important;">
+            		<app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'"></app-atom-spinner>
+            	</div>
+            </div>
+
+            <div class="col-lg-8 col-md-12" *ngFor="let ticket of ticketData">
+              <div class="card">
+
+                <div class="card-header card-header-success" *ngIf="ticket.closed == true">
+                  <h4 class="card-title"> {{ticket.ticket_subject}} </h4>
+                </div>
+
+                <div class="card-header card-header-warning" *ngIf="ticket.closed == false">
+                  <h4 class="card-title"> {{ticket.ticket_subject}} </h4>
+                </div>
+
+                <div class="card-body table-responsive" [innerHTML]="ticket.description"></div>
+                <hr>
+
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> {{ticket.support_requested_on_datetime | date}} at {{ticket.support_requested_on_datetime | date:'H:mm a'}}
+                  </div>
+                </div>
+
+              </div>
+              <br/>
+            </div>
+
+
+            <div class="col-lg-8 col-md-12" *ngFor="let discussion of ticketDiscussionsData">
+              <div class="card" *ngIf="discussion.message_from_support == false">
+
+              	<h2 class="support-user">{{discussion.ticket_addressed_by_user_first_name}} {{discussion.ticket_addressed_by_user_last_name}}</h2>
+              	<hr>
+
+                <div class="card-body table-responsive" [innerHTML]="discussion.message"></div>
+                <hr>
+
+                <div class="card-footer">
+                  <div class="stats">
+                    <i class="material-icons">date_range</i> {{discussion.ticket_addressed_on_datetime | date}} at {{discussion.ticket_addressed_on_datetime | date:'H:mm a'}}
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="card billa-support-response" *ngIf="discussion.message_from_support == true">
+
+              	<h2 class="support-user white-color">{{discussion.ticket_addressed_by_user_first_name}} {{discussion.ticket_addressed_by_user_last_name}}</h2>
+              	<hr>
+
+                <div class="card-body table-responsive white-color" [innerHTML]="discussion.message"></div>
+                <hr>
+
+                <div class="card-footer">
+                  <div class="stats white-color">
+                    <i class="material-icons">date_range</i> {{discussion.ticket_addressed_on_datetime | date}} at {{discussion.ticket_addressed_on_datetime | date:'H:mm a'}}
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="col-md-9" *ngFor="let ticket of ticketData">
+				<div class="card" *ngIf="ticket.closed == false">
+
+					<div class="form-title">
+	                	<h2>
+	                		Reply 
+			            </h2>	                	
+		            </div> 
+
+					<div class="card-body">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label class="bmd-label-floating">Message</label>
+									<textarea rows="5" class="form-control" [(ngModel)]="reply"></textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div class="col-md-12">
+						<button type="submit" class="btn btn-primary pull-right col-md-3" style="float: right !important;" (click)="submitReply()">Submit</button>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+		</div>
+
+		<app-footer></app-footer>
+
+	</div>
+
+</div>

@@ -1,0 +1,161 @@
+<div class="wrapper ">
+	<app-sidebar></app-sidebar>
+
+    <div class="main-panel">
+    	<app-header></app-header>
+
+      <div class="content">
+        <div class="container-fluid">
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+
+                	<div class="form-title">
+	                	<h2>
+	                		Filter/Sort
+	                		<div class="float-right">
+			                	<button *ngIf="showButtonFilters == true" (click)="showFilter()"><i class="fa fa-plus"></i></button>
+			                	<button *ngIf="hideButtonFilters == true" (click)="hideFilter()"><i class="fa fa-minus"></i></button>
+			                </div>
+			            </h2>	                	
+		            </div>                	
+
+                	<div *ngIf="showFilters == true">
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">From Date</label> -->
+
+	                          <input class="form-control" placeholder="Sales from date" ngx-mydatepicker name="salesFromDate" [(ngModel)]="salesFromDate" [options]="myOptions" #dp="ngx-mydatepicker" (click)="dp.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <!-- <label class="bmd-label-floating">To Date</label> -->
+	                          <!-- <input type="text" class="form-control" name="salesToDate" [(ngModel)]="salesToDate" ngx-mydatepicker> -->
+	                          <input class="form-control" placeholder="Sales to date" ngx-mydatepicker name="salesToDate" [(ngModel)]="salesToDate" [options]="myOptions" #dp2="ngx-mydatepicker" (click)="dp2.toggleCalendar()"/>
+
+	                        </div>
+	                      </div>
+	                    </div>
+
+	                    <div class="row">
+	                      <div class="col-md-6">
+	                        <div class="form-group">
+	                          <label class="bmd-label-floating">Payment Method</label>
+
+	                          <select class="form-control" [(ngModel)]="paymentMethod">
+	                          	<option value="">-- Please select --</option>
+	                          	<option value="Billa">Covered By Billa</option>
+                              <option value="Cash">Cash</option>
+                              <option value="Card">Credit Card</option>
+                              <option value="MPesa">M.Pesa</option>
+	                          </select>
+
+	                        </div>
+	                      </div>
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label class="bmd-label-floating">Sales By Employee</label>
+
+                            <select class="form-control" [(ngModel)]="salesMadeByEmployeeSlug" (change)="saveSelectedEmployeeNames()">
+                              <option value="">-- Please select --</option>
+                              <option *ngFor="let employee of employeesList" value="{{employee.slug}}:{{employee.first_name}};{{employee.last_name}}">{{employee.first_name}} {{employee.last_name}}</option>
+                            </select>
+
+                          </div>
+                        </div>
+	                    </div>
+
+	                    <button class="btn btn-primary pull-right" (click)="search()">Search</button>
+	                    <div class="clearfix"></div>
+
+	                </div>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Sales Report</h4>
+                  <p class="card-category"> {{salesDataSubtitle}} </p>
+                </div>
+
+                <div style="margin-left: 45% !important;">
+                	<br/>
+	                <div *ngIf="stopSalesDataFetchLoading == false" class="margin50percent" style="text-align: center !important;">
+	                	<app-atom-spinner [animationDuration]="1000" [size]="60" [color]="'#ff1d5e'"></app-atom-spinner>
+	                </div>
+	            </div>
+
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                          Code
+                        </th>
+                        <th>
+                          Quantity
+                        </th>
+                        <th>
+                          Customer Name
+                        </th>
+                        <th>
+                          Tel
+                        </th>
+                        <th>
+                          Ordered On
+                        </th>
+                      </thead>                     
+
+                      <tbody>
+
+                        <tr *ngFor="let order of salesData" class="orders-table-row" (click)="viewOrderDetails(order.cart_code)">
+                          <td>
+                            {{order.cart_code}}
+                          </td>
+                          <td>
+                            {{order.quantity | number}}
+                          </td>
+                          <td>
+                            {{order.buyer_first_name}} {{order.buyer_last_name}}
+                          </td>
+                          <td>
+                            {{order.buyer_tel1}}
+                          </td>
+                          <td>
+                            {{order.checked_out_on_date | date}} {{order.checked_out_on_time | date:'H:mm a'}}
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              <h4>Total items sold:  {{totalNumberOfProducts | number}} </h4>
+
+              <h4>Total revenue:  {{partnerCurrency}}  {{totalRevenue | number}}</h4>
+
+              {{numberOfReturnedSalesDataTitle}}
+
+              <div class="centered">
+              	<button class="btn btn-primary btn-round" (click)="loadMore()">Load More</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <app-footer></app-footer>
+    </div>
+  </div>
